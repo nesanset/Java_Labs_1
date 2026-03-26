@@ -37,3 +37,6 @@ build/
 ### Mac OS ###
 .DS_Store.idea/
 uml_implementation.drawio
+
+uml_*.drawio
+uml_*.puml
