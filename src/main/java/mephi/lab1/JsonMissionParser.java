@@ -23,7 +23,11 @@ public class JsonMissionParser implements MissionParser{
                 techniques.add(new Technique(technique.get("name").asText(),technique.get("owner").asText(), technique.get("type").asText(), technique.get("damage").asText()));
             }
 
-            String note = root.get("comment").asText();
+            String note = null;
+            if (root.has("comment") && !root.get("comment").isNull()){
+                note = root.get("comment").asText();
+            }
+
             Curse missionCurse = new Curse(curse.get("name").asText(), curse.get("threatLevel").asText());
             return new Mission(root.get("missionId").asText(), root.get("date").asText(), root.get("location").asText(), root.get("outcome").asText(), root.get("damageCost").asText(), participants, missionCurse, techniques, note);
 
