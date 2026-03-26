@@ -1,12 +1,10 @@
 package mephi.lab1;
 
+import java.util.*;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class XmlMissionParser implements MissionParser{
     private final XmlMapper xmlMapper = new XmlMapper();
@@ -16,22 +14,20 @@ public class XmlMissionParser implements MissionParser{
         try{
             MissionXml missionXml = xmlMapper.readValue(content, MissionXml.class);
 
-            List<String> participants = new ArrayList<>();
+            List<Sorcerer> participants = new ArrayList<>();
             for (SorcererXml sorcerer : missionXml.sorcerers){
-                participants.add(sorcerer.name + " (" + sorcerer.rank + ")");
+                participants.add(new Sorcerer(sorcerer.name, sorcerer.rank));
             }
 
-            List<String> techniques = new ArrayList<>();
+            List<Technique> techniques = new ArrayList<>();
             for (TechniqueXml technique : missionXml.techniques){
-                techniques.add(technique.name + "\n   -Владелец: " + technique.owner + "\n   -Тип: " + technique.type + "\n   -Урон: " + technique.damage);
+                techniques.add(new Technique(technique.name, technique.owner, technique.type, technique.damage));
             }
 
-            String note = missionXml.note;
+            Curse curse = new Curse(missionXml.curse.name, missionXml.curse.threatLevel);
 
-            Mission mission = new Mission(missionXml.missionId, missionXml.date, missionXml.location, missionXml.outcome, missionXml.damageCost, participants, missionXml.curse.name, missionXml.curse.threatLevel, techniques, null);
-            return mission;
-
-        } catch (Exception exception){
+            return new Mission(missionXml.missionId, missionXml.date, missionXml.location, missionXml.outcome, missionXml.damageCost, participants, curse, techniques, missionXml.comment);
+        }catch (Exception exception){
             throw new MissionParseException("Не удалось прочитать XML");
         }
     }
@@ -53,7 +49,7 @@ public class XmlMissionParser implements MissionParser{
         @JacksonXmlProperty(localName = "technique")
         public List<TechniqueXml> techniques;
 
-        public String note;
+        public String comment;
     }
 
     private static class CurseXml{

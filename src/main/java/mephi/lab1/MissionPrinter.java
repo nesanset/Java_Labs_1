@@ -3,40 +3,46 @@ package mephi.lab1;
 import java.util.List;
 
 public class MissionPrinter{
-    public void print(LoadedMission loadedMission){
+    public void print(LoadedMission loadedMission) {
         Mission mission = loadedMission.getMission();
 
         System.out.println("-----АНАЛИЗ МИССИИ------");
         System.out.println("Распознанный формат: " + loadedMission.getFormat().getViewName() + "\n");
-        System.out.println("МИССИЯ:");
-        printResult(mission);
-        printList("УЧАСТНИКИ", mission.getParticipants());
-        System.out.println("ПРОКЛЯТИЕ: " + buildCurseText(mission));
-        printList("ТЕХНИКИ", mission.getTechniques());
+        printMission(mission);
+        printParticipants(mission.getParticipants());
+        printCurse(mission.getCurse());
+        printTechniques(mission.getTechniques());
     }
 
-    private void printList(String title, List<String> values){
-        System.out.println(title + ":");
-        for (String value : values) {
-            System.out.println("-" + value);
+    private void printParticipants(List<Sorcerer> participants) {
+        System.out.println("УЧАСТНИКИ:\n");
+        for (Sorcerer participant : participants){
+            System.out.println("-" + participant.getName() + " (" + participant.getRank() + ")\n");
         }
-        System.out.println();
     }
 
-    private String buildCurseText(Mission mission){
-        return "\n-Имя: " + mission.getCurseName() + "\n-Уровень угрозы: " + mission.getCurseLevel() + "\n";
+    private void printTechniques(List<Technique> techniques){
+        System.out.println("ТЕХНИКИ:");
+        for (Technique technique : techniques){
+            System.out.println("-" + technique.getName() + "\n   -Владелец: " + technique.getOwner() + "\n   -Тип: " + technique.getType() + "\n   -Урон: " + technique.getDamage()+ "\n");
+        }
     }
 
-    private void printResult(Mission mission){
-        System.out.println("-Статус: " + mission.getOutcome());
-        System.out.println("-ID миссии: " + mission.getMissionId());
-        System.out.println("-Дата: " + mission.getDate());
-        System.out.println("-Локация: " + mission.getLocation());
-        System.out.println("-Ущерб: " + mission.getDamageCost());
+    private void printCurse(Curse curse){
+        System.out.println("ПРОКЛЯТИЕ: \n-Имя: " + curse.getName() + "\n-Уровень угрозы: " + curse.getThreatLevel() + "\n");
+    }
+
+    private void printMission(Mission mission){
+        System.out.println("МИССИЯ:");
+        System.out.println("\n-Статус: " + mission.getOutcome());
+        System.out.println("\n-ID миссии: " + mission.getMissionId());
+        System.out.println("\n-Дата: " + mission.getDate());
+        System.out.println("\n-Локация: " + mission.getLocation());
+        System.out.println("\n-Ущерб: " + mission.getDamageCost());
         if (mission.getNote() == null){
-            System.out.println("-Примечание: не задано");
+            System.out.println("-Примечание: не задано\n");
         }else{
-            System.out.println("-Примечание: " + mission.getNote());
+            System.out.println("-Примечание: " + mission.getNote() + "\n");
         }
     }
 }

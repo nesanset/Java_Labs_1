@@ -1,10 +1,8 @@
 package mephi.lab1;
 
+import java.util.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class JsonMissionParser implements MissionParser{
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -15,23 +13,21 @@ public class JsonMissionParser implements MissionParser{
             JsonNode root = objectMapper.readTree(content);
             JsonNode curse = root.get("curse");
 
-            List<String> participants = new ArrayList<>();
-            for (JsonNode sorcerer : root.get("sorcerers")) {
-                participants.add(sorcerer.get("name").asText() + " (" + sorcerer.get("rank").asText() + ")");
+            List<Sorcerer> participants = new ArrayList<>();
+            for (JsonNode sorcerer : root.get("sorcerers")){
+                participants.add(new Sorcerer(sorcerer.get("name").asText(), sorcerer.get("rank").asText()));
             }
 
-            List<String> techniques = new ArrayList<>();
+            List<Technique> techniques = new ArrayList<>();
             for (JsonNode technique : root.get("techniques")){
-                techniques.add(technique.get("name").asText() + " | владелец: " + technique.get("owner").asText() + " | тип: " + technique.get("type").asText() + " | урон: " + technique.get("damage").asText());
+                techniques.add(new Technique(technique.get("name").asText(),technique.get("owner").asText(), technique.get("type").asText(), technique.get("damage").asText()));
             }
 
-            String note = null;
-            if (root.has("note")) {
-                note = root.get("note").asText();
-            }
-            Mission mission = new Mission(root.get("missionId").asText(), root.get("date").asText(), root.get("location").asText(), root.get("outcome").asText(), root.get("damageCost").asText(), participants, curse.get("name").asText(), curse.get("threatLevel").asText(), techniques, note);
-            return mission;
-        } catch (Exception exception) {
+            String note = root.get("comment").asText();
+            Curse missionCurse = new Curse(curse.get("name").asText(), curse.get("threatLevel").asText());
+            return new Mission(root.get("missionId").asText(), root.get("date").asText(), root.get("location").asText(), root.get("outcome").asText(), root.get("damageCost").asText(), participants, missionCurse, techniques, note);
+
+        }catch (Exception exception){
             throw new MissionParseException("Не удалось прочитать JSON");
         }
     }

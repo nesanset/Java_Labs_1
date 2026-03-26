@@ -13,22 +13,21 @@ public class MissionAnalyzerApp{
             System.out.println("\nВведите путь к файлу (A-выход):");
             String wayToFile = scanner.nextLine();
 
-            if ("A".equals(wayToFile)) {
-                System.out.println("Завершение работы.");
+            if ("A".equals(wayToFile)){
+                System.out.println("Анализ файлов завершен!");
                 return;
             }
-            if (wayToFile.isEmpty()) {
+            if (wayToFile.isEmpty()){
                 continue;
             }
-            try {
+            try{
                 LoadedMission loadedMission = missionLoader.load(wayToFile);
-                if (loadedMission != null) {
+                if (loadedMission != null){
                     missionPrinter.print(loadedMission);
                 }
-            } catch (Exception exception){
-                System.out.println("Ошибка: не удалось обработать файл");
+            }catch (Exception exception){
+                System.out.println("Не удалось обработать файл");
             }
         }
     }
 }
-

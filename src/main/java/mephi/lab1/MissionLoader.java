@@ -12,7 +12,7 @@ public class MissionLoader{
     private final MissionParser xmlParser = new XmlMissionParser();
 
     public LoadedMission load(String wayToFile){
-        try {
+        try{
             File sourceFile = new File(wayToFile);
             if (!sourceFile.exists()){
                 throw new IOException("Файл не найден " + sourceFile.getAbsolutePath());
@@ -21,8 +21,7 @@ public class MissionLoader{
             FileFormat format = formatDetector.detect(wayToFile);
             MissionParser parser = getParser(format);
             Mission mission = parser.parse(content);
-            LoadedMission loadedMission = new LoadedMission(sourceFile.getAbsolutePath(), format, mission);
-            return loadedMission;
+            return new LoadedMission(sourceFile.getAbsolutePath(), format, mission);
 
         }catch (IOException exception){
             System.out.println("Ошибка чтения файла: " + exception.getMessage());
@@ -45,8 +44,7 @@ public class MissionLoader{
     private String readContent(File file) throws IOException{
         try (FileInputStream input = new FileInputStream(file)){
             byte[] fileBytes = input.readAllBytes();
-            String content = new String(fileBytes, StandardCharsets.UTF_8);
-            return content;
+            return new String(fileBytes, StandardCharsets.UTF_8);
         }
     }
 }
