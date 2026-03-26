@@ -15,16 +15,17 @@ public class MissionPrinter{
     }
 
     private void printParticipants(List<Sorcerer> participants) {
-        System.out.println("УЧАСТНИКИ:\n");
+        System.out.println("УЧАСТНИКИ:");
         for (Sorcerer participant : participants){
-            System.out.println("-" + participant.getName() + " (" + participant.getRank() + ")\n");
+            System.out.println("-" + participant.getName() + " (" + participant.getRank() + ")");
         }
+        System.out.println();
     }
 
     private void printTechniques(List<Technique> techniques){
         System.out.println("ТЕХНИКИ:");
         for (Technique technique : techniques){
-            System.out.println("-" + technique.getName() + "\n   -Владелец: " + technique.getOwner() + "\n   -Тип: " + technique.getType() + "\n   -Урон: " + technique.getDamage()+ "\n");
+            System.out.println("-" + technique.getName() + "\n   -Владелец: " + technique.getOwner() + "\n   -Тип: " + technique.getType() + "\n   -Урон: " + technique.getDamage());
         }
     }
 
@@ -34,11 +35,11 @@ public class MissionPrinter{
 
     private void printMission(Mission mission){
         System.out.println("МИССИЯ:");
-        System.out.println("\n-Статус: " + mission.getOutcome());
-        System.out.println("\n-ID миссии: " + mission.getMissionId());
-        System.out.println("\n-Дата: " + mission.getDate());
-        System.out.println("\n-Локация: " + mission.getLocation());
-        System.out.println("\n-Ущерб: " + mission.getDamageCost());
+        System.out.println("-Статус: " + mission.getOutcome());
+        System.out.println("-ID миссии: " + mission.getMissionId());
+        System.out.println("-Дата: " + mission.getDate());
+        System.out.println("-Локация: " + mission.getLocation());
+        System.out.println("-Ущерб: " + mission.getDamageCost());
         if (mission.getNote() == null){
             System.out.println("-Примечание: не задано\n");
         }else{

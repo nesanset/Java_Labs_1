@@ -10,10 +10,10 @@ public class MissionAnalyzerApp{
 
         System.out.println("Добро пожаловать в анализатор миссий!");
         while (true){
-            System.out.println("\nВведите путь к файлу (A-выход):");
+            System.out.println("\nВведите путь к файлу (или <выход> для выхода из программы):");
             String wayToFile = scanner.nextLine();
 
-            if ("A".equals(wayToFile)){
+            if ("выход".equals(wayToFile)){
                 System.out.println("Анализ файлов завершен!");
                 return;
             }
