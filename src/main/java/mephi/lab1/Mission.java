@@ -19,9 +19,9 @@ public class Mission{
         this.location = location;
         this.outcome = outcome;
         this.damageCost = damageCost;
-        this.participants = List.copyOf(participants);
+        this.participants = participants;
         this.curse = curse;
-        this.techniques = List.copyOf(techniques);
+        this.techniques = techniques;
         this.note = note;
     }
 
